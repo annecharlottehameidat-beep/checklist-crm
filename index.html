@@ -1,0 +1,924 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Checklist demande de campagne CRM</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #EEF4FB;
+    --surface: #FFFFFF;
+    --dark: #1A1A1A;
+    --muted: #6B6B6B;
+    --accent: #2C4A5A;
+    --accent-light: #D6E8F5;
+    --tag-bg: #F0F4F8;
+    --tag-text: #4A5568;
+    --highlight-bg: #FDE8E0;
+    --highlight-text: #C0392B;
+    --warn: #C0392B;
+    --warn-light: #FDE8E0;
+    --ok: #0B7A5A;
+    --ok-light: #EDFAF4;
+    --border: #D6E4EF;
+    --tip: #1A56DB;
+    --tip-light: #EBF5FF;
+    --red: #FF0000;
+    --purple: #6B4FBB;
+    --black: #1B1B1B;
+    --green: #0B996E;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--dark);
+    min-height: 100vh;
+    padding: 2rem 1rem 4rem;
+  }
+
+  .page { max-width: 880px; margin: 0 auto; }
+
+  header {
+    margin-bottom: 2rem;
+    padding-bottom: 1.8rem;
+    border-bottom: 2px solid var(--dark);
+  }
+
+  .logo-area h1 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 2.4rem;
+    line-height: 1.1;
+    color: var(--dark);
+    margin-bottom: 0.3rem;
+  }
+
+  .logo-area .subtitle {
+    font-size: 0.82rem;
+    color: var(--muted);
+    font-weight: 400;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    margin-bottom: 0.8rem;
+  }
+
+  .tags {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    margin-bottom: 1rem;
+  }
+
+  .tag {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.25rem 0.8rem;
+    border-radius: 100px;
+    font-size: 0.75rem;
+    font-weight: 500;
+    background: var(--tag-bg);
+    color: var(--tag-text);
+    border: 1px solid var(--border);
+  }
+
+  .tag.highlight {
+    background: var(--highlight-bg);
+    color: var(--highlight-text);
+    border-color: #F5C6BE;
+    font-weight: 600;
+  }
+
+  .tools {
+    display: flex;
+    gap: 0.4rem;
+    flex-wrap: wrap;
+    margin-top: 0.5rem;
+  }
+
+  .tool-badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.2rem 0.6rem;
+    border-radius: 100px;
+    font-size: 0.68rem;
+    font-weight: 600;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+    color: white;
+  }
+
+  .tool-badge.adobe { background: var(--red); }
+  .tool-badge.imagino { background: var(--purple); }
+  .tool-badge.batch { background: var(--black); }
+  .tool-badge.brevo { background: var(--green); }
+
+  .intro-text {
+    margin-top: 1rem;
+    font-size: 0.92rem;
+    color: var(--muted);
+    line-height: 1.7;
+    max-width: 660px;
+  }
+
+  .intro-text strong { color: var(--dark); }
+
+  .warning-banner {
+    background: var(--warn-light);
+    border-left: 3px solid var(--warn);
+    padding: 0.8rem 1.1rem;
+    border-radius: 0 8px 8px 0;
+    margin: 1.2rem 0 0;
+    font-size: 0.85rem;
+    color: var(--warn);
+    font-weight: 400;
+    line-height: 1.5;
+  }
+
+  .global-progress {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 1.1rem 1.3rem;
+    margin-bottom: 1.8rem;
+    display: flex;
+    align-items: center;
+    gap: 1.2rem;
+  }
+
+  .progress-info { flex: 1; }
+  .progress-label { font-size: 0.8rem; color: var(--muted); margin-bottom: 0.4rem; }
+  .progress-label span { font-weight: 600; color: var(--accent); }
+
+  .progress-bar-wrap {
+    background: var(--border);
+    border-radius: 100px;
+    height: 7px;
+    overflow: hidden;
+  }
+
+  .progress-bar {
+    height: 100%;
+    background: var(--accent);
+    border-radius: 100px;
+    transition: width 0.3s ease;
+    width: 0%;
+  }
+
+  .reset-btn {
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--muted);
+    padding: 0.45rem 0.9rem;
+    border-radius: 8px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.78rem;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: all 0.2s;
+  }
+
+  .reset-btn:hover { border-color: var(--warn); color: var(--warn); }
+
+  .success-banner {
+    background: var(--ok-light);
+    border: 1px solid #5CB89A;
+    border-radius: 12px;
+    padding: 1.1rem 1.3rem;
+    margin-bottom: 1.8rem;
+    display: none;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .success-banner.show { display: flex; }
+  .success-icon { font-size: 1.8rem; }
+  .success-text h3 { color: var(--ok); font-size: 0.95rem; margin-bottom: 0.15rem; }
+  .success-text p { color: #0B5A42; font-size: 0.82rem; font-weight: 300; }
+
+  section { margin-bottom: 1.6rem; }
+
+  .section-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.8rem;
+    margin-bottom: 0.7rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .section-header-left { display: flex; align-items: center; gap: 0.7rem; }
+
+  .section-number {
+    width: 26px;
+    height: 26px;
+    background: var(--dark);
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.75rem;
+    font-weight: 600;
+    flex-shrink: 0;
+  }
+
+  .section-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.18rem;
+    color: var(--dark);
+  }
+
+  .section-progress {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.73rem;
+    color: var(--muted);
+    white-space: nowrap;
+  }
+
+  .section-progress-bar-wrap {
+    width: 70px;
+    background: var(--border);
+    border-radius: 100px;
+    height: 4px;
+    overflow: hidden;
+  }
+
+  .section-progress-bar {
+    height: 100%;
+    background: var(--ok);
+    border-radius: 100px;
+    transition: width 0.3s;
+    width: 0%;
+  }
+
+  .items-grid { display: flex; flex-direction: column; gap: 0.45rem; }
+
+  .item {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 0.85rem 1rem;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.9rem;
+    transition: border-color 0.2s;
+  }
+
+  .item:hover { border-color: #9EC5E0; }
+  .item.done { border-color: #5CB89A; background: #FAFFFE; }
+
+  .item-left { display: flex; align-items: flex-start; gap: 0.75rem; }
+
+  .checkbox {
+    width: 19px;
+    height: 19px;
+    border: 2px solid var(--border);
+    border-radius: 5px;
+    flex-shrink: 0;
+    margin-top: 2px;
+    cursor: pointer;
+    transition: all 0.15s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .checkbox:hover { border-color: var(--accent); background: var(--accent-light); }
+
+  .checkbox.checked {
+    background: var(--ok);
+    border-color: var(--ok);
+  }
+
+  .checkbox.checked::after {
+    content: '✓';
+    color: white;
+    font-size: 11px;
+    font-weight: 700;
+  }
+
+  .item-label {
+    font-weight: 500;
+    font-size: 0.9rem;
+    color: var(--dark);
+    margin-bottom: 0.12rem;
+    line-height: 1.4;
+  }
+
+  .item-sublabel {
+    font-size: 0.78rem;
+    color: var(--muted);
+    font-weight: 300;
+    line-height: 1.4;
+  }
+
+  .item-right {
+    border-left: 1px solid var(--border);
+    padding-left: 0.9rem;
+  }
+
+  .preco-label {
+    font-size: 0.67rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--accent);
+    margin-bottom: 0.22rem;
+  }
+
+  .preco-text {
+    font-size: 0.78rem;
+    color: var(--muted);
+    line-height: 1.55;
+    font-weight: 300;
+  }
+
+  .preco-text strong { color: var(--dark); font-weight: 500; }
+
+  .preco-text a {
+    color: var(--tip);
+    text-decoration: none;
+    font-size: 0.75rem;
+  }
+
+  .preco-text a:hover { text-decoration: underline; }
+
+  .mandatory {
+    display: inline-block;
+    font-size: 0.6rem;
+    background: var(--warn-light);
+    color: var(--warn);
+    padding: 0.08rem 0.35rem;
+    border-radius: 4px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-left: 0.35rem;
+    vertical-align: middle;
+  }
+
+  .tip-block {
+    background: var(--tip-light);
+    border-left: 3px solid var(--tip);
+    padding: 0.6rem 0.85rem;
+    border-radius: 0 6px 6px 0;
+    margin-top: 0.5rem;
+    font-size: 0.77rem;
+    color: #1A3A6B;
+    line-height: 1.5;
+  }
+
+  .tip-block a { color: var(--tip); text-decoration: none; }
+  .tip-block a:hover { text-decoration: underline; }
+
+  .links-block {
+    margin-top: 0.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+  }
+
+  .links-block a {
+    font-size: 0.75rem;
+    color: var(--tip);
+    text-decoration: none;
+  }
+
+  .links-block a:hover { text-decoration: underline; }
+
+  .footer {
+    margin-top: 2.5rem;
+    padding-top: 1.2rem;
+    border-top: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 0.8rem;
+  }
+
+  .footer-credit { font-size: 0.8rem; color: var(--muted); line-height: 1.6; }
+  .footer-credit strong { color: var(--dark); }
+  .footer-credit a { color: var(--accent); text-decoration: none; }
+  .footer-credit a:hover { text-decoration: underline; }
+  .footer-updated { font-size: 0.72rem; color: var(--muted); font-style: italic; }
+
+  @media (max-width: 620px) {
+    .item { grid-template-columns: 1fr; }
+    .item-right { border-left: none; padding-left: 0; border-top: 1px solid var(--border); padding-top: 0.7rem; }
+    .logo-area h1 { font-size: 1.9rem; }
+    .global-progress { flex-direction: column; align-items: flex-start; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <header>
+    <div class="logo-area">
+      <h1>Checklist demande de campagne CRM</h1>
+      <div class="subtitle">Pense-bête interlocuteur métier → équipe opérations CRM</div>
+      <div class="tags">
+        <span class="tag">Renfort opérationnel</span>
+        <span class="tag">Automation</span>
+        <span class="tag highlight">+80 campagnes / semaine</span>
+      </div>
+      <div class="tools">
+        <span class="tool-badge adobe">Adobe Campaign</span>
+        <span class="tool-badge imagino">Imagino</span>
+        <span class="tool-badge batch">Batch</span>
+        <span class="tool-badge brevo">Brevo</span>
+      </div>
+    </div>
+    <p class="intro-text" style="margin-top:1rem;">
+      Ce pense-bête est à consulter <strong>avant de transmettre votre demande</strong> à l'équipe CRM.
+      Cochez chaque point pour vous assurer que votre brief est complet et bien formé.
+    </p>
+    <div class="warning-banner">
+      ⚠️ Plus tôt vous transmettez votre brief, mieux c'est.
+    </div>
+  </header>
+
+  <div class="global-progress">
+    <div class="progress-info">
+      <div class="progress-label">Progression : <span id="progress-text">0 / 19</span> éléments cochés</div>
+      <div class="progress-bar-wrap">
+        <div class="progress-bar" id="progress-bar"></div>
+      </div>
+    </div>
+    <button class="reset-btn" onclick="resetAll()">↺ Tout décocher</button>
+  </div>
+
+  <div class="success-banner" id="success-banner">
+    <div class="success-icon">🎉</div>
+    <div class="success-text">
+      <h3>Brief complet : vous pouvez transmettre votre demande !</h3>
+      <p>Tous les éléments sont cochés. Votre brief est prêt pour l'équipe CRM.</p>
+    </div>
+  </div>
+
+  <!-- Section 1 -->
+  <section data-section="1">
+    <div class="section-header">
+      <div class="section-header-left">
+        <div class="section-number">1</div>
+        <div class="section-title">Informations générales</div>
+      </div>
+      <div class="section-progress">
+        <span class="sp-text">0/4</span>
+        <div class="section-progress-bar-wrap"><div class="section-progress-bar"></div></div>
+      </div>
+    </div>
+    <div class="items-grid">
+
+      <div class="item">
+        <div class="item-left">
+          <div class="checkbox" onclick="toggle(this)"></div>
+          <div>
+            <div class="item-label">Nom de la campagne <span class="mandatory">obligatoire</span></div>
+            <div class="item-sublabel">Nom court, clair, sans caractères spéciaux</div>
+          </div>
+        </div>
+        <div class="item-right">
+          <div class="preco-label">Préco</div>
+          <div class="preco-text">Veillez à bien suivre la nomenclature définie. En cas de doute, rapprochez-vous du service CRM avant de nommer votre campagne.</div>
+        </div>
+      </div>
+
+      <div class="item">
+        <div class="item-left">
+          <div class="checkbox" onclick="toggle(this)"></div>
+          <div>
+            <div class="item-label">Objectif de la campagne <span class="mandatory">obligatoire</span></div>
+            <div class="item-sublabel">Acquisition / Rétention / Réactivation / Promotion / Lancement / Autre</div>
+          </div>
+        </div>
+        <div class="item-right">
+          <div class="preco-label">Préco</div>
+          <div class="preco-text">L'objectif conditionne le ciblage, le message et les KPIs à suivre. Sans objectif clair, impossible d'optimiser.</div>
+        </div>
+      </div>
+
+      <div class="item">
+        <div class="item-left">
+          <div class="checkbox" onclick="toggle(this)"></div>
+          <div>
+            <div class="item-label">Date et heure d'envoi souhaitées <span class="mandatory">obligatoire</span></div>
+            <div class="item-sublabel">Date + heure + fuseau horaire si international</div>
+          </div>
+        </div>
+        <div class="item-right">
+          <div class="preco-label">Préco</div>
+          <div class="preco-text">Anticipez au maximum pour garantir la qualité de production.</div>
+          <div class="tip-block">
+            💡 Selon les benchmarks secteur : <strong>mardi-jeudi, 10h ou 14h</strong> offrent les meilleurs taux d'ouverture.
+          </div>
+          <div class="links-block" style="margin-top:0.5rem;">
+            <a href="https://www.mailjet.com/fr/blog/bonnes-pratiques-emailing/meilleur-moment-envoyer-newsletter/" target="_blank">→ Mailjet : meilleur moment d'envoi</a>
+            <a href="https://www.badsender.com/2018/07/03/chiffre-email-benchmark-emailing/" target="_blank">→ Benchmark Badsender 2026</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="item">
+        <div class="item-left">
+          <div class="checkbox" onclick="toggle(this)"></div>
+          <div>
+            <div class="item-label">Canal(aux) d'envoi <span class="mandatory">obligatoire</span></div>
+            <div class="item-sublabel">Email / SMS / Push / Courrier</div>
+          </div>
+        </div>
+        <div class="item-right">
+          <div class="preco-label">Préco</div>
+          <div class="preco-text">Chaque canal a ses contraintes techniques et légales propres. Un brief multicanal = délais de production multipliés.</div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Section 2 -->
+  <section data-section="2">
+    <div class="section-header">
+      <div class="section-header-left">
+        <div class="section-number">2</div>
+        <div class="section-title">Ciblage & audience</div>
+      </div>
+      <div class="section-progress">
+        <span class="sp-text">0/3</span>
+        <div class="section-progress-bar-wrap"><div class="section-progress-bar"></div></div>
+      </div>
+    </div>
+    <div class="items-grid">
+
+      <div class="item">
+        <div class="item-left">
+          <div class="checkbox" onclick="toggle(this)"></div>
+          <div>
+            <div class="item-label">Description précise de la cible <span class="mandatory">obligatoire</span></div>
+            <div class="item-sublabel">Critères de segmentation détaillés</div>
+          </div>
+        </div>
+        <div class="item-right">
+          <div class="preco-label">Préco</div>
+          <div class="preco-text">Éviter "tous nos clients actifs". Préciser : statut, ancienneté, comportement d'achat, localisation. Plus le ciblage est précis, meilleure est la performance.</div>
+        </div>
+      </div>
+
+      <div class="item">
+        <div class="item-left">
+          <div class="checkbox" onclick="toggle(this)"></div>
+          <div>
+            <div class="item-label">Volume estimé</div>
+            <div class="item-sublabel">Si connu : ordre de grandeur suffisant</div>
+          </div>
+        </div>
+        <div class="item-right">
+          <div class="preco-label">Préco</div>
+          <div class="preco-text"><strong>Un envoi massif non anticipé peut dégrader votre réputation d'expéditeur</strong> et impacter la délivrabilité de toutes vos campagnes.</div>
+        </div>
+      </div>
+
+      <div class="item">
+        <div class="item-left">
+          <div class="checkbox" onclick="toggle(this)"></div>
+          <div>
+            <div class="item-label">Exclusions éventuelles</div>
+            <div class="item-sublabel">Segments à exclure de cet envoi</div>
+          </div>
+        </div>
+        <div class="item-right">
+          <div class="preco-label">Préco</div>
+          <div class="preco-text">Penser aux contacts ayant reçu une communication récente, aux désabonnés partiels, aux clients VIP à traiter séparément.</div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Section 3 -->
+  <section data-section="3">
+    <div class="section-header">
+      <div class="section-header-left">
+        <div class="section-number">3</div>
+        <div class="section-title">Contenu & créa</div>
+      </div>
+      <div class="section-progress">
+        <span class="sp-text">0/6</span>
+        <div class="section-progress-bar-wrap"><div class="section-progress-bar"></div></div>
+      </div>
+    </div>
+    <div class="items-grid">
+
+      <div class="item">
+        <div class="item-left">
+          <div class="checkbox" onclick="toggle(this)"></div>
+          <div>
+            <div class="item-label">Objet de l'email <span class="mandatory">obligatoire</span></div>
+            <div class="item-sublabel">Texte final validé</div>
+          </div>
+        </div>
+        <div class="item-right">
+          <div class="preco-label">Préco</div>
+          <div class="preco-text"><strong>50 caractères max</strong> pour un affichage optimal sur mobile. Éviter les majuscules excessives et les caractères spéciaux (filtres anti-spam).</div>
+          <div class="links-block">
+            <a href="https://www.mailjet.com/fr/blog/bonnes-pratiques-emailing/bonnes-pratiques-objet-email/" target="_blank">→ Guide Mailjet : bonnes pratiques objet email</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="item">
+        <div class="item-left">
+          <div class="checkbox" onclick="toggle(this)"></div>
+          <div>
+            <div class="item-label">Préheader <span class="mandatory">obligatoire</span></div>
+            <div class="item-sublabel">Texte affiché après l'objet en boîte de réception</div>
+          </div>
+        </div>
+        <div class="item-right">
+          <div class="preco-label">Préco</div>
+          <div class="preco-text"><strong>85-100 caractères max.</strong> Complémentaire à l'objet : pas une répétition. C'est le 2e levier d'ouverture après l'objet.</div>
+          <div class="links-block">
+            <a href="https://www.badsender.com/2022/11/08/email-preheader-exemples-bonnes-pratiques/" target="_blank">→ Guide Badsender : preheader bonnes pratiques</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="item">
+        <div class="item-left">
+          <div class="checkbox" onclick="toggle(this)"></div>
+          <div>
+            <div class="item-label">Textes validés <span class="mandatory">obligatoire</span></div>
+            <div class="item-sublabel">Version finale uniquement</div>
+          </div>
+        </div>
+        <div class="item-right">
+          <div class="preco-label">Préco</div>
+          <div class="preco-text">Textes à fournir en <strong>version finale validée</strong>. Toute modification après intégration HTML entraîne une reprise complète de la production.</div>
+        </div>
+      </div>
+
+      <div class="item">
+        <div class="item-left">
+          <div class="checkbox" onclick="toggle(this)"></div>
+          <div>
+            <div class="item-label">Visuels <span class="mandatory">obligatoire</span></div>
+            <div class="item-sublabel">Format web, résolution adaptée</div>
+          </div>
+        </div>
+        <div class="item-right">
+          <div class="preco-label">Préco</div>
+          <div class="preco-text">
+            Format <strong>JPG ou PNG</strong>, 72dpi, largeur max <strong>600px</strong>.<br>
+            Poids : <strong>max 200ko par image</strong>, poids total email <strong>max 100ko</strong>.<br>
+            <strong>Jamais de fichiers qualité impression</strong> (300dpi). Respecter la charte email.
+          </div>
+          <div class="tip-block">
+            🌙 <strong>Dark mode</strong> : 65% des utilisateurs consultent leurs emails en mode sombre. Pour les images avec fond coloré, utiliser le <strong>format PNG avec fond transparent</strong> : sinon un fond blanc disgracieux apparaîtra en dark mode.
+          </div>
+        </div>
+      </div>
+
+      <div class="item">
+        <div class="item-left">
+          <div class="checkbox" onclick="toggle(this)"></div>
+          <div>
+            <div class="item-label">CTA : texte du bouton <span class="mandatory">obligatoire</span></div>
+            <div class="item-sublabel">Libellé exact du bouton d'action</div>
+          </div>
+        </div>
+        <div class="item-right">
+          <div class="preco-label">Préco</div>
+          <div class="preco-text">Éviter "En savoir plus" ou "Cliquez ici". Privilégier des <strong>verbes d'action à la 1re personne</strong> : "Je profite de l'offre", "Je découvre". Impact direct sur le taux de clic.</div>
+          <div class="links-block">
+            <a href="https://www.brevo.com/fr/blog/call-to-action-exemples-bonnes-pratiques/" target="_blank">→ Brevo : exemples et bonnes pratiques CTA email</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="item">
+        <div class="item-left">
+          <div class="checkbox" onclick="toggle(this)"></div>
+          <div>
+            <div class="item-label">URL de destination <span class="mandatory">obligatoire</span></div>
+            <div class="item-sublabel">Lien testé et fonctionnel</div>
+          </div>
+        </div>
+        <div class="item-right">
+          <div class="preco-label">Préco</div>
+          <div class="preco-text">Vérifier que la page de destination est <strong>live et cohérente</strong> avec le message. Une page en erreur = campagne nulle. Prévoir une URL de secours si promo limitée dans le temps.</div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Section 4 -->
+  <section data-section="4">
+    <div class="section-header">
+      <div class="section-header-left">
+        <div class="section-number">4</div>
+        <div class="section-title">Accessibilité</div>
+      </div>
+      <div class="section-progress">
+        <span class="sp-text">0/2</span>
+        <div class="section-progress-bar-wrap"><div class="section-progress-bar"></div></div>
+      </div>
+    </div>
+    <div class="items-grid">
+
+      <div class="item">
+        <div class="item-left">
+          <div class="checkbox" onclick="toggle(this)"></div>
+          <div>
+            <div class="item-label">Textes alternatifs (alt text) sur les images</div>
+            <div class="item-sublabel">Description textuelle de chaque visuel</div>
+          </div>
+        </div>
+        <div class="item-right">
+          <div class="preco-label">Préco</div>
+          <div class="preco-text">Obligatoire pour les lecteurs d'écran. Aussi utile quand les images sont bloquées par le client mail. <strong>Fournir un alt text pour chaque image.</strong></div>
+        </div>
+      </div>
+
+      <div class="item">
+        <div class="item-left">
+          <div class="checkbox" onclick="toggle(this)"></div>
+          <div>
+            <div class="item-label">Contraste des textes sur les visuels</div>
+            <div class="item-sublabel">Lisibilité en dark mode et pour les daltoniens</div>
+          </div>
+        </div>
+        <div class="item-right">
+          <div class="preco-label">Préco</div>
+          <div class="preco-text">Éviter les textes clairs sur fond clair. Ratio de contraste recommandé : <strong>min 4.5:1</strong>. Vérifier la lisibilité en dark mode avant de valider les visuels.</div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Section 5 -->
+  <section data-section="5">
+    <div class="section-header">
+      <div class="section-header-left">
+        <div class="section-number">5</div>
+        <div class="section-title">Mentions légales & conformité</div>
+      </div>
+      <div class="section-progress">
+        <span class="sp-text">0/2</span>
+        <div class="section-progress-bar-wrap"><div class="section-progress-bar"></div></div>
+      </div>
+    </div>
+    <div class="items-grid">
+
+      <div class="item">
+        <div class="item-left">
+          <div class="checkbox" onclick="toggle(this)"></div>
+          <div>
+            <div class="item-label">Mentions légales liées à l'offre <span class="mandatory">obligatoire si promo</span></div>
+            <div class="item-sublabel">Conditions, durée, restrictions, astérisques</div>
+          </div>
+        </div>
+        <div class="item-right">
+          <div class="preco-label">Préco</div>
+          <div class="preco-text"><strong>Obligatoires pour toute offre promotionnelle.</strong> Fournies par le métier ou le service juridique. L'équipe CRM ne les rédige pas. <strong>Absence = blocage de la campagne.</strong></div>
+        </div>
+      </div>
+
+      <div class="item">
+        <div class="item-left">
+          <div class="checkbox" onclick="toggle(this)"></div>
+          <div>
+            <div class="item-label">Paramètres de tracking / UTM</div>
+            <div class="item-sublabel">Source, medium, campaign, content</div>
+          </div>
+        </div>
+        <div class="item-right">
+          <div class="preco-label">Préco</div>
+          <div class="preco-text">Si non fournis, l'équipe CRM appliquera la convention standard. Préciser si besoin d'un tracking spécifique pour un reporting Analytics ou une campagne multicanal.</div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Section 6 -->
+  <section data-section="6">
+    <div class="section-header">
+      <div class="section-header-left">
+        <div class="section-number">6</div>
+        <div class="section-title">Validation & BAT</div>
+      </div>
+      <div class="section-progress">
+        <span class="sp-text">0/2</span>
+        <div class="section-progress-bar-wrap"><div class="section-progress-bar"></div></div>
+      </div>
+    </div>
+    <div class="items-grid">
+
+      <div class="item">
+        <div class="item-left">
+          <div class="checkbox" onclick="toggle(this)"></div>
+          <div>
+            <div class="item-label">Valideurs BAT + délai de validation <span class="mandatory">obligatoire</span></div>
+            <div class="item-sublabel">Liste des valideurs + durée max accordée</div>
+          </div>
+        </div>
+        <div class="item-right">
+          <div class="preco-label">Préco</div>
+          <div class="preco-text">Maximum <strong>3-4 valideurs</strong> avec un <strong>décisionnaire final clairement identifié</strong>. Prévoir <strong>24h minimum</strong> de délai. Sans retour dans les délais, définir à l'avance la règle appliquée.</div>
+        </div>
+      </div>
+
+      <div class="item">
+        <div class="item-left">
+          <div class="checkbox" onclick="toggle(this)"></div>
+          <div>
+            <div class="item-label">Interlocuteur décisionnaire en cas d'urgence <span class="mandatory">obligatoire</span></div>
+            <div class="item-sublabel">Nom + téléphone direct</div>
+          </div>
+        </div>
+        <div class="item-right">
+          <div class="preco-label">Préco</div>
+          <div class="preco-text">En cas d'anomalie à J-0, il faut pouvoir joindre un décisionnaire <strong>immédiatement</strong>. Contact téléphonique uniquement : pas par email.</div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="footer-credit">
+      Créée par <strong>Anne-Charlotte Hameidat</strong> : Campaign Manager CRM Freelance<br>
+      <a href="https://www.linkedin.com/in/anne-charlotte-hameidat" target="_blank">→ LinkedIn</a>
+      <span style="color:#ccc;margin:0 0.3rem;">·</span>
+      <span style="font-size:0.72rem;color:#aaa;">Adobe Campaign · Imagino · Batch · Brevo · Ownpage</span>
+    </div>
+    <div class="footer-updated">Mis à jour : mars 2026</div>
+  </footer>
+
+</div>
+
+<script>
+  function getSectionItems(section) {
+    return section.querySelectorAll('.checkbox');
+  }
+
+  function updateSectionProgress(section) {
+    const items = getSectionItems(section);
+    const checked = section.querySelectorAll('.checkbox.checked').length;
+    const total = items.length;
+    const pct = total > 0 ? Math.round((checked / total) * 100) : 0;
+    const bar = section.querySelector('.section-progress-bar');
+    const text = section.querySelector('.sp-text');
+    if (bar) bar.style.width = pct + '%';
+    if (text) text.textContent = checked + '/' + total;
+  }
+
+  function updateGlobalProgress() {
+    const all = document.querySelectorAll('.checkbox');
+    const checked = document.querySelectorAll('.checkbox.checked').length;
+    const total = all.length;
+    const pct = Math.round((checked / total) * 100);
+    document.getElementById('progress-bar').style.width = pct + '%';
+    document.getElementById('progress-text').textContent = checked + ' / ' + total;
+    const banner = document.getElementById('success-banner');
+    if (checked === total) {
+      banner.classList.add('show');
+      banner.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    } else {
+      banner.classList.remove('show');
+    }
+  }
+
+  function toggle(el) {
+    el.classList.toggle('checked');
+    const item = el.closest('.item');
+    if (item) item.classList.toggle('done', el.classList.contains('checked'));
+    const section = el.closest('section');
+    if (section) updateSectionProgress(section);
+    updateGlobalProgress();
+  }
+
+  function resetAll() {
+    document.querySelectorAll('.checkbox.checked').forEach(cb => {
+      cb.classList.remove('checked');
+      const item = cb.closest('.item');
+      if (item) item.classList.remove('done');
+    });
+    document.querySelectorAll('section').forEach(s => updateSectionProgress(s));
+    updateGlobalProgress();
+  }
+
+  document.querySelectorAll('section').forEach(s => updateSectionProgress(s));
+  updateGlobalProgress();
+</script>
+</body>
+</html>
